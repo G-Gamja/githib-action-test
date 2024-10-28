@@ -23,7 +23,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          npm install --_script/okx
+          npm install --prefix _script/okx
 
       - name: Set environment variables
         run: |
