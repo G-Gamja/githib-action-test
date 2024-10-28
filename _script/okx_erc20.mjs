@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync, rmSync } from "fs";
+import { readFileSync, writeFileSync } from "fs";
 import cryptoJS from "crypto-js";
 
 const nativeCoinContractAddress = "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE";
@@ -9,7 +9,7 @@ async function main() {
     const secretKey = process.env.SECRET_KEY;
     const passphrase = process.env.PASSPHRASE;
 
-    const date = new Date(); // Get the current time
+    const date = new Date();
     const timestamp = date.toISOString();
 
     const chain = process.argv[2];
@@ -22,8 +22,6 @@ async function main() {
 
     const fileName = `./chain/${chain}/erc20_2.json`;
     const currentAssets = JSON.parse(readFileSync(fileName, "utf-8"));
-
-    console.log("🚀 ~ main ~ currentAssets:", currentAssets);
 
     const response = await fetch(
       `https://www.okx.com/api/v5/dex/aggregator/all-tokens?chainId=${chainId}`,
@@ -74,8 +72,6 @@ async function main() {
       }));
 
     const mergedAssets = [...currentAssets, ...assetsToAdd];
-
-    console.log("🚀 ~ main ~ mergedAssets:", mergedAssets);
 
     writeFileSync(fileName, JSON.stringify(mergedAssets, null, 4));
 
