@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node _script/okx_erc20.js cronos 25"
+    "start": "node _script/okx_erc20.mjs cronos 25"
   },
   "dependencies": {
     "crypto-js": "^4.2.0"

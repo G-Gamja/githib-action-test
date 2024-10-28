@@ -16,12 +16,16 @@ async function main() {
 
     const chainId = process.argv[3];
 
+    console.log("🚀 ~ main ~ chainId:", chainId);
+
     if (!chain || !chainId) {
       throw new Error("Missing chain or chainId");
     }
 
     const fileName = `./chain/${chain}/erc20_2.json`;
     const currentAssets = JSON.parse(readFileSync(fileName, "utf-8"));
+
+    console.log("🚀 ~ main ~ currentAssets:", currentAssets);
 
     const response = await fetch(
       `https://www.okx.com/api/v5/dex/aggregator/all-tokens?chainId=${chainId}`,
@@ -43,6 +47,8 @@ async function main() {
     );
 
     const jsonResponse = await response.json();
+
+    console.log("🚀 ~ main ~ jsonResponse:", jsonResponse);
 
     const erc20Assets = jsonResponse.data;
 
