@@ -29,7 +29,6 @@ jobs:
 
       - name: Run code modification script
         run: |
-          npm install
           node _script/okx_erc20.mjs cronos 25
         env:
           API_KEY: ${{ secrets.API_KEY }}

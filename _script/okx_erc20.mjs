@@ -65,10 +65,10 @@ async function main() {
         contract: asset.tokenContractAddress,
         name: asset.tokenName,
         symbol: asset.tokenSymbol,
-        description: "",
+        description: asset.tokenSymbol, // NOTE: Temporary
         decimals: asset.decimals,
         image: asset?.tokenLogoUrl,
-        coinGeckoId: asset?.coingeckoId,
+        coinGeckoId: asset?.coingeckoId || "",
       }));
 
     const mergedAssets = [...currentAssets, ...assetsToAdd];
