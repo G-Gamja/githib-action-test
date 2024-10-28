@@ -31,7 +31,7 @@ async function main() {
     const currentAssets = JSON.parse(readFileSync(fileName, "utf-8"));
 
     const response = await fetch(
-      "https://www.okx.com/api/v5/dex/aggregator/all-tokens?chainId=1",
+      `https://www.okx.com/api/v5/dex/aggregator/all-tokens?chainId=${chainId}`,
       {
         headers: {
           "OK-ACCESS-KEY": apiKey,
