@@ -16,8 +16,6 @@ async function main() {
 
     const chainId = process.argv[3];
 
-    console.log("🚀 ~ main ~ chainId:", chainId);
-
     if (!chain || !chainId) {
       throw new Error("Missing chain or chainId");
     }
@@ -47,8 +45,6 @@ async function main() {
     );
 
     const jsonResponse = await response.json();
-
-    console.log("🚀 ~ main ~ jsonResponse:", jsonResponse);
 
     const erc20Assets = jsonResponse.data;
 
