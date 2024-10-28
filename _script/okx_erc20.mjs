@@ -7,16 +7,24 @@ async function main() {
   try {
     const apiKey = process.env.API_KEY;
     const secretKey = process.env.SECRET_KEY;
+
+    console.log("🚀 ~ main ~ secretKey:", secretKey);
+
     const passphrase = process.env.PASSPHRASE;
 
     const date = new Date(); // Get the current time
     const timestamp = date.toISOString();
 
     const chain = process.argv[2];
-    const squidChainId = process.argv[3];
 
-    if (!chain || !squidChainId) {
-      throw new Error("Missing chain or squidChainId");
+    console.log("🚀 ~ main ~ chain:", chain);
+
+    const chainId = process.argv[3];
+
+    console.log("🚀 ~ main ~ chainId:", chainId);
+
+    if (!chain || !chainId) {
+      throw new Error("Missing chain or chainId");
     }
 
     const fileName = `./chain/${chain}/erc20_2.json`;
@@ -29,7 +37,9 @@ async function main() {
           "OK-ACCESS-KEY": apiKey,
           "OK-ACCESS-SIGN": cryptoJS.enc.Base64.stringify(
             cryptoJS.HmacSHA256(
-              timestamp + "GET" + "/api/v5/dex/aggregator/all-tokens?chainId=1",
+              timestamp +
+                "GET" +
+                `/api/v5/dex/aggregator/all-tokens?chainId=${chainId}`,
               secretKey
             )
           ),
@@ -41,7 +51,11 @@ async function main() {
 
     const jsonResponse = await response.json();
 
+    console.log("🚀 ~ main ~ jsonResponse:", jsonResponse);
+
     const erc20Assets = jsonResponse.data;
+
+    console.log("🚀 ~ main ~ erc20Assets:", erc20Assets);
 
     const currentAssetContractAddresses = currentAssets.map((asset) => {
       return asset.contract.toLowerCase();
