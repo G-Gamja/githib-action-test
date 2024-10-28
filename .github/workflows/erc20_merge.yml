@@ -1,0 +1,48 @@
+name: ERC20 Merge with OKX
+
+on:
+  workflow_dispatch:
+
+jobs:
+  create-pull-request:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Set environment variables
+        run: |
+          echo "API_KEY=${{ secrets.API_KEY }}" >> $GITHUB_ENV
+          echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> $GITHUB_ENV
+          echo "PASSPHRASE=${{ secrets.PASSPHRASE }}" >> $GITHUB_ENV
+
+      - name: Run code modification script
+        run: |
+          node _script/okx_erc20.js cronos 25
+        env:
+          API_KEY: ${{ secrets.API_KEY }}
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          PASSPHRASE: ${{ secrets.PASSPHRASE }}
+
+      - name: Create dynamic branch name
+        id: vars
+        run: |
+          BRANCH_NAME="update-assets-$(date +%Y%m%d%H%M%S)"
+          echo "branch_name=$BRANCH_NAME" >> $GITHUB_OUTPUT
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "Automated code modification"
+          branch: ${{ steps.vars.outputs.branch_name }}
+          title: "Automated PR: Weekly evm assets modification"
+          body: "arbitrum / avalanche / base"
+          draft: false
+          delete-branch: true # PR 병합 후 브랜치 삭제
