@@ -3,6 +3,9 @@ name: ERC20 Merge with OKX
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   create-pull-request:
     runs-on: ubuntu-latest
